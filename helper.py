@@ -8,8 +8,8 @@ from os import walk
 import math
 
 from model import SocialModel
-from olstm_model import OLSTMModel
-from vlstm_model import VLSTMModel
+#from olstm_model import OLSTMModel
+#from vlstm_model import VLSTMModel
 
 
 

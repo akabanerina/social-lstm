@@ -22,23 +22,24 @@ class DataLoader():
         forcePreProcess : Flag to forcefully preprocess the data again from csv files
         '''
         # base test files
-        base_test_dataset=  ['/data/test/biwi/biwi_eth.txt', 
-                        '/data/test/crowds/crowds_zara01.txt',
-                        '/data/test/crowds/uni_examples.txt', 
-                        '/data/test/stanford/coupa_0.txt',
-                         '/data/test/stanford/coupa_1.txt', '/data/test/stanford/gates_2.txt','/data/test/stanford/hyang_0.txt','/data/test/stanford/hyang_1.txt','/data/test/stanford/hyang_3.txt','/data/test/stanford/hyang_8.txt',
-                          '/data/test/stanford/little_0.txt','/data/test/stanford/little_1.txt','/data/test/stanford/little_2.txt','/data/test/stanford/little_3.txt','/data/test/stanford/nexus_5.txt','/data/test/stanford/nexus_6.txt',
-                          '/data/test/stanford/quad_0.txt','/data/test/stanford/quad_1.txt','/data/test/stanford/quad_2.txt','/data/test/stanford/quad_3.txt'
+        base_test_dataset=  [
+                        #'/data/test/biwi/biwi_eth.txt', 
+                        '/data/test/crowds/file01.txt',
+                        #'/data/test/crowds/uni_examples.txt', 
+                        #'/data/test/stanford/coupa_0.txt',
+                        #'/data/test/stanford/coupa_1.txt', '/data/test/stanford/gates_2.txt','/data/test/stanford/hyang_0.txt','/data/test/stanford/hyang_1.txt','/data/test/stanford/hyang_3.txt','/data/test/stanford/hyang_8.txt',
+                          #'/data/test/stanford/little_0.txt','/data/test/stanford/little_1.txt','/data/test/stanford/little_2.txt','/data/test/stanford/little_3.txt','/data/test/stanford/nexus_5.txt','/data/test/stanford/nexus_6.txt',
+                          #'/data/test/stanford/quad_0.txt','/data/test/stanford/quad_1.txt','/data/test/stanford/quad_2.txt','/data/test/stanford/quad_3.txt'
                           ]
         #base train files
-        base_train_dataset = ['/data/train/biwi/biwi_hotel.txt', 
+        #base_train_dataset = ['/data/train/biwi/biwi_hotel.txt', 
                         #'/data/train/crowds/arxiepiskopi1.txt','/data/train/crowds/crowds_zara02.txt',
                         #'/data/train/crowds/crowds_zara03.txt','/data/train/crowds/students001.txt','/data/train/crowds/students003.txt',
                         #'/data/train/mot/PETS09-S2L1.txt',
                         #'/data/train/stanford/bookstore_0.txt','/data/train/stanford/bookstore_1.txt','/data/train/stanford/bookstore_2.txt','/data/train/stanford/bookstore_3.txt','/data/train/stanford/coupa_3.txt','/data/train/stanford/deathCircle_0.txt','/data/train/stanford/deathCircle_1.txt','/data/train/stanford/deathCircle_2.txt','/data/train/stanford/deathCircle_3.txt',
                         #'/data/train/stanford/deathCircle_4.txt','/data/train/stanford/gates_0.txt','/data/train/stanford/gates_1.txt','/data/train/stanford/gates_3.txt','/data/train/stanford/gates_4.txt','/data/train/stanford/gates_5.txt','/data/train/stanford/gates_6.txt','/data/train/stanford/gates_7.txt','/data/train/stanford/gates_8.txt','/data/train/stanford/hyang_4.txt',
                         #'/data/train/stanford/hyang_5.txt','/data/train/stanford/hyang_6.txt','/data/train/stanford/hyang_9.txt','/data/train/stanford/nexus_0.txt','/data/train/stanford/nexus_1.txt','/data/train/stanford/nexus_2.txt','/data/train/stanford/nexus_3.txt','/data/train/stanford/nexus_4.txt','/data/train/stanford/nexus_7.txt','/data/train/stanford/nexus_8.txt','/data/train/stanford/nexus_9.txt'
-                        ]
+                        #]
         # dimensions of each file set
         self.dataset_dimensions = {'biwi':[720, 576], 'crowds':[720, 576], 'stanford':[595, 326], 'mot':[768, 576]}
         
@@ -125,7 +126,7 @@ class DataLoader():
         if self.additional_validation:
         # If the file doesn't exist or forcePreProcess is true
             if not(os.path.exists(self.data_file_vl)) or forcePreProcess:
-                print("Creating pre-processed validation data from raw data")
+                #print("Creating pre-processed validation data from raw data")
                 # Preprocess the data from the csv files of the datasets
                 # Note that this data is processed in frames
                 self.frame_preprocess(self.validation_dataset, self.data_file_vl, self.additional_validation)
@@ -134,10 +135,10 @@ class DataLoader():
         # if infer mode, and no additional files -> test preprocessing
             if not self.additional_validation:
                 if not(os.path.exists(self.data_file_te)) or forcePreProcess:
-                    print("Creating pre-processed test data from raw data")
+                    #print("Creating pre-processed test data from raw data")
                     # Preprocess the data from the csv files of the datasets
                     # Note that this data is processed in frames
-                    print("Working on directory: ", self.data_file_te)
+                    #print("Working on directory: ", self.data_file_te)
                     self.frame_preprocess(self.data_dirs, self.data_file_te)
             # if infer mode, and there are additional validation files -> validation dataset visualization
             else:
@@ -147,7 +148,7 @@ class DataLoader():
         else:
             # If the file doesn't exist or forcePreProcess is true -> training pre-process
             if not(os.path.exists(self.data_file_tr)) or forcePreProcess:
-                print("Creating pre-processed training data from raw data")
+                #print("Creating pre-processed training data from raw data")
                 # Preprocess the data from the csv files of the datasets
                 # Note that this data is processed in frames
                 self.frame_preprocess(self.data_dirs, self.data_file_tr)
@@ -206,7 +207,7 @@ class DataLoader():
         for directory in data_dirs:
 
             # Load the data from the txt file
-            print("Now processing: ", directory)
+            #print("Now processing: ", directory)
             column_names = ['frame_num','ped_id','y','x']
 
             # if training mode, read train file to pandas dataframe and process
@@ -319,10 +320,10 @@ class DataLoader():
         validation_set : flag for validation dataset
         '''
         # Load data from the pickled file
-        if(validation_set):
-            print("Loading validaton datasets: ", data_file)
-        else:
-            print("Loading train or test dataset: ", data_file)
+        #if(validation_set):
+            #print("Loading validaton datasets: ", data_file)
+        #else:
+            #print("Loading train or test dataset: ", data_file)
 
         f = open(data_file, 'rb')
         self.raw_data = pickle.load(f)
@@ -343,8 +344,8 @@ class DataLoader():
 
         counter = 0
         valid_counter = 0
-        print('Sequence size(frame) ------>',self.seq_length)
-        print('One batch size (frame)--->-', self.batch_size*self.seq_length)
+        #print('Sequence size(frame) ------>',self.seq_length)
+        #print('One batch size (frame)--->-', self.batch_size*self.seq_length)
 
         # For each dataset
         for dataset in range(len(self.data)):
@@ -355,11 +356,11 @@ class DataLoader():
             # calculate number of sequence 
             num_seq_in_dataset = int(len(all_frame_data) / (self.seq_length))
             num_valid_seq_in_dataset = int(len(valid_frame_data) / (self.seq_length))
-            if not validation_set:
-                print('Training data from training dataset(name, # frame, #sequence)--> ', dataset_name, ':', len(all_frame_data),':', (num_seq_in_dataset))
-                print('Validation data from training dataset(name, # frame, #sequence)--> ', dataset_name, ':', len(valid_frame_data),':', (num_valid_seq_in_dataset))
-            else: 
-                print('Validation data from validation dataset(name, # frame, #sequence)--> ', dataset_name, ':', len(all_frame_data),':', (num_seq_in_dataset))
+            #if not validation_set:
+                #print('Training data from training dataset(name, # frame, #sequence)--> ', dataset_name, ':', len(all_frame_data),':', (num_seq_in_dataset))
+                #print('Validation data from training dataset(name, # frame, #sequence)--> ', dataset_name, ':', len(valid_frame_data),':', (num_valid_seq_in_dataset))
+            #else: 
+                #print('Validation data from validation dataset(name, # frame, #sequence)--> ', dataset_name, ':', len(all_frame_data),':', (num_seq_in_dataset))
 
             # Increment the counter with the number of sequences in the current dataset
             counter += num_seq_in_dataset
@@ -370,11 +371,11 @@ class DataLoader():
         self.valid_num_batches = int(valid_counter/self.batch_size)
 
 
-        if not validation_set:
-            print('Total number of training batches:', self.num_batches)
-            print('Total number of validation batches:', self.valid_num_batches)
-        else:
-            print('Total number of validation batches:', self.num_batches)
+        #if not validation_set:
+            #print('Total number of training batches:', self.num_batches)
+            #print('Total number of validation batches:', self.valid_num_batches)
+        #else:
+            #print('Total number of validation batches:', self.num_batches)
 
         # self.valid_num_batches = self.valid_num_batches * 2
 
@@ -508,8 +509,8 @@ class DataLoader():
             # If all datasets are done, then go to the first one again
             if self.dataset_pointer >= len(self.data):
                 self.dataset_pointer = 0
-            print("*******************")
-            print("now processing: %s"% self.get_file_name())
+            #print("*******************")
+            #print("now processing: %s"% self.get_file_name())
         else:
             # Go to the next dataset
             self.valid_dataset_pointer += 1
@@ -518,8 +519,8 @@ class DataLoader():
             # If all datasets are done, then go to the first one again
             if self.valid_dataset_pointer >= len(self.valid_data):
                 self.valid_dataset_pointer = 0
-            print("*******************")
-            print("now processing: %s"% self.get_file_name(pointer_type = 'valid'))
+            #print("*******************")
+            #print("now processing: %s"% self.get_file_name(pointer_type = 'valid'))
 
     def reset_batch_pointer(self, valid=False):
         '''
@@ -678,7 +679,7 @@ class DataLoader():
 
     def write_dataset(self, dataset_seq, file_name, path):
         # write a file in txt format
-        print("Writing to file  path: %s, file_name: %s"%(path, file_name))
+        #print("Writing to file  path: %s, file_name: %s"%(path, file_name))
         out = np.concatenate(dataset_seq, axis = 0)
         np.savetxt(os.path.join(path, file_name), out, fmt = "%1d %1.1f %.3f %.3f", newline='\n')
 
@@ -688,7 +689,7 @@ class DataLoader():
         for file in range(self.numDatasets):
             file_name = self.get_file_name(file)
             file_name = file_name.split('.')[0] + '.pkl'
-            print("Writing to plot file  path: %s, file_name: %s"%(path, file_name))
+            #print("Writing to plot file  path: %s, file_name: %s"%(path, file_name))
             with open(os.path.join(path, file_name), 'wb') as f:
                 pickle.dump(data[file], f)
 

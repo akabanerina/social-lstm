@@ -5,7 +5,7 @@ import pickle
 import argparse
 import time
 import subprocess
-
+import shutil
 
 import torch
 from torch.autograd import Variable
@@ -21,10 +21,10 @@ def main():
     
     parser = argparse.ArgumentParser()
     # Observed length of the trajectory parameter
-    parser.add_argument('--obs_length', type=int, default=8,
+    parser.add_argument('--obs_length', type=int, default=10,
                         help='Observed length of the trajectory')
     # Predicted length of the trajectory parameter
-    parser.add_argument('--pred_length', type=int, default=12,
+    parser.add_argument('--pred_length', type=int, default=10,
                         help='Predicted length of the trajectory')
     
     
@@ -60,7 +60,7 @@ def main():
 
     #run sh file for folder creation
     if not os.path.isdir("log/"):
-      print("Directory creation script is running...")
+      #print("Directory creation script is running...")
       subprocess.call([f_prefix+'/make_directories.sh'])
 
     method_name = get_method_name(sample_args.method)
@@ -70,7 +70,7 @@ def main():
         model_name = "GRU"
         save_tar_name = method_name+"_gru_model_"
 
-    print("Selected method name: ", method_name, " model name: ", model_name)
+    #print("Selected method name: ", method_name, " model name: ", model_name)
 
     # Save directory
     save_directory = os.path.join(f_prefix, 'model/', method_name, model_name)
@@ -118,11 +118,11 @@ def main():
         # Get the checkpoint path
         checkpoint_path = os.path.join(save_directory, save_tar_name+str(sample_args.epoch)+'.tar')
         if os.path.isfile(checkpoint_path):
-            print('Loading checkpoint')
+            #print('Loading checkpoint')
             checkpoint = torch.load(checkpoint_path)
             model_epoch = checkpoint['epoch']
             net.load_state_dict(checkpoint['state_dict'])
-            print('Loaded checkpoint at epoch', model_epoch)
+            #print('Loaded checkpoint at epoch', model_epoch)
         
         # For each batch
         iteration_submission = []
@@ -205,7 +205,7 @@ def main():
             
             end = time.time()
 
-            print('Current file : ', dataloader.get_file_name(0),' Processed trajectory number : ', batch+1, 'out of', dataloader.num_batches, 'trajectories in time', end - start)
+            #print('Current file : ', dataloader.get_file_name(0),' Processed trajectory number : ', batch+1, 'out of', dataloader.num_batches, 'trajectories in time', end - start)
 
 
 
@@ -230,19 +230,21 @@ def main():
         result_store.append(iteration_result)
 
         if total_error<smallest_err:
-            print("**********************************************************")
-            print('Best iteration has been changed. Previous best iteration: ', smallest_err_iter_num+1, 'Error: ', smallest_err / dataloader.num_batches)
-            print('New best iteration : ', iteration+1, 'Error: ',total_error / dataloader.num_batches)
+            #print("**********************************************************")
+            #print('Best iteration has been changed. Previous best iteration: ', smallest_err_iter_num+1, 'Error: ', smallest_err / dataloader.num_batches)
+            #print('New best iteration : ', iteration+1, 'Error: ',total_error / dataloader.num_batches)
             smallest_err_iter_num = iteration
             smallest_err = total_error
 
-        print('Iteration:' ,iteration+1,' Total training (observed part) mean error of the model is ', total_error / dataloader.num_batches)
-        print('Iteration:' ,iteration+1,'Total training (observed part) final error of the model is ', final_error / dataloader.num_batches)
+        #print('Iteration:' ,iteration+1,' Total training (observed part) mean error of the model is ', total_error / dataloader.num_batches)
+        #print('Iteration:' ,iteration+1,'Total training (observed part) final error of the model is ', final_error / dataloader.num_batches)
         #print(submission)
 
-    print('Smallest error iteration:', smallest_err_iter_num+1)
+    #print('Smallest error iteration:', smallest_err_iter_num+1)
     dataloader.write_to_file(submission_store[smallest_err_iter_num], result_directory, prefix, model_name)
     dataloader.write_to_plot_file(result_store[smallest_err_iter_num], os.path.join(plot_directory, plot_test_file_directory))
+    
+    print(ret_x_seq[10:20])
 
 
 def sample(x_seq, Pedlist, args, net, true_x_seq, true_Pedlist, saved_args, dimensions, dataloader, look_up, num_pedlist, is_gru, grid = None):
@@ -376,4 +378,8 @@ def submission_preprocess(dataloader, ret_x_seq, pred_length, obs_length, target
 
 
 if __name__ == '__main__':
-    main()
+    while True:
+        src = "./data/test/crowds/Fukagawa.txt"
+        copy = "./data/test/crowds/crowds_zara01.txt"
+        shutil.copyfile(src,copy)
+        main()
